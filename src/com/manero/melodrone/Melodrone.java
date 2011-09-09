@@ -1,7 +1,5 @@
 package com.manero.melodrone;
 
-import java.util.Timer;
-
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -51,20 +49,6 @@ public class Melodrone {
 		mWidth = width;
 		mHeight = height;
 		mCellSize = new Rect(0,0, width/GRID_SIDE, height/GRID_SIDE);
-		Thread thread = new Thread() {
-			@Override
-            public void run() {
-				while(true) {
-	                Melodrone.this.update();
-	                try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-            }
-        };
-		thread.start();
 	}
 
 	public void update() {
