@@ -37,20 +37,20 @@ public class MelodroneView extends View implements OnTouchListener{
 
 		Thread thread = new Thread() {
 			@Override
-            public void run() {
-				while(true) {
-	                mMelo.update();
-	                postInvalidate();
-	                try {
+			public void run() {
+				while (true) {
+					mMelo.update();
+					postInvalidate();
+					try {
 						Thread.sleep(125);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
-            }
-        };
+			}
+		};
 		thread.start();
-		
+
 		/* force repaint */
 		invalidate();
 	}
