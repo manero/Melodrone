@@ -66,7 +66,7 @@ public class Melodrone {
 			}
 		}
 		mCurrentBeat++;
-		printGrid();
+//		printGrid(); //debug purposes
 	}
 
 	private void printGrid() {
