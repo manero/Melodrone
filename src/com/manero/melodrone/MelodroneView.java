@@ -42,7 +42,7 @@ public class MelodroneView extends View implements OnTouchListener{
 	                mMelo.update();
 	                postInvalidate();
 	                try {
-						Thread.sleep(100);
+						Thread.sleep(125);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -69,7 +69,7 @@ public class MelodroneView extends View implements OnTouchListener{
 			break;
 		}
 		invalidate();
-		return false;
+		return true;
 	}
 	
     @Override
