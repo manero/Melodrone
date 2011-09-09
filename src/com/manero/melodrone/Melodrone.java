@@ -69,6 +69,7 @@ public class Melodrone {
 //		printGrid(); //debug purposes
 	}
 
+	@SuppressWarnings("unused")
 	private void printGrid() {
 		Log.i("grid", "mCurrentBeat = " + mCurrentBeat);
 		Log.i("grid", "  -------------------------");
@@ -123,16 +124,32 @@ public class Melodrone {
 		}
 	}
 	
-	public boolean touch(float x, float y) {
+	public boolean touchDown(float x, float y) {
+		boolean lightingUp = false;
 		// find column and row
 		int column = (int) (x / mCellSize.width());
 		int row = (int) (y / mCellSize.height());
 		
-		if (mNotes[column][row] == NoteState.OFF)
+		if (mNotes[column][row] == NoteState.OFF) {
 			mNotes[column][row] = NoteState.ON;
-		else
+			lightingUp = true;
+		}
+		else {
 			mNotes[column][row] = NoteState.OFF;
-		return true;
+			lightingUp = false;
+		}
+		return lightingUp;
+	}
+
+	public void touchMove(float x, float y, boolean lightingUp) {
+		int column = (int) (x / mCellSize.width());
+		int row = (int) (y / mCellSize.height());
+		
+		if (lightingUp) {
+			mNotes[column][row] = NoteState.ON;
+		} else {
+			mNotes[column][row] = NoteState.OFF;
+		}
 	}
 }
 

@@ -15,6 +15,7 @@ public class MelodroneView extends View implements OnTouchListener{
 	Paint paint = new Paint();
 	int mWidth;
 	int mHeight;
+	boolean lightingUp = true;
 
 	public MelodroneView(Context context) {
         super(context);
@@ -56,9 +57,18 @@ public class MelodroneView extends View implements OnTouchListener{
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_DOWN)
-			if (this.mMelo.touch(event.getX(), event.getY()))
-				invalidate();
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_MOVE:
+			mMelo.touchMove(event.getX(), event.getY(), lightingUp);
+			break;
+		case MotionEvent.ACTION_DOWN:
+			lightingUp = mMelo.touchDown(event.getX(), event.getY());
+			break;
+
+		default:
+			break;
+		}
+		invalidate();
 		return false;
 	}
 	
@@ -66,5 +76,4 @@ public class MelodroneView extends View implements OnTouchListener{
     public void onDraw(Canvas canvas) {
     	mMelo.draw(canvas, paint);
     }
-
 }
