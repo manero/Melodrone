@@ -20,4 +20,15 @@ public class MelodroneActivity extends Activity {
         setContentView(mMelodroneView);
         mMelodroneView.requestFocus();
     }
+    
+    @Override
+    public void onPause(){
+    	super.onPause();
+    	mMelodroneView.pause();
+    }
+    
+    public void onResume(){
+    	super.onResume();
+    	mMelodroneView.resume();
+    }
 }
