@@ -173,6 +173,13 @@ public class Melodrone {
 	public void touchMove(float x, float y, boolean lightingUp) {
 		int column = (int) (x / mCellSize.width());
 		int row = (int) (y / mCellSize.height());
+		//adjusting to the bounds of the array
+		if(column >= mNotes.length){
+			column = mNotes.length - 1;
+		}
+		if(row >= mNotes.length){
+			row = mNotes[column].length - 1;
+		}
 		
 		if (lightingUp) {
 			mNotes[column][row] = NoteState.ON;
