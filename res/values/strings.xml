@@ -2,4 +2,8 @@
 <resources>
     <string name="hello">Hello World, MelodroneActivity!</string>
     <string name="app_name">Melodrone</string>
+    <string name="clear">clear screen</string>
+    <string name="about_text">visit the project home at http://github.com/manero/Melodrone</string>
+    <string name="about_menu">about...</string>
+    <string name="exit">exit</string>
 </resources>

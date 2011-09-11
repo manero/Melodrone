@@ -2,7 +2,6 @@ package com.manero.melodrone;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -22,9 +21,7 @@ public class MelodroneView extends View implements OnTouchListener{
         super(context);
         setFocusable(true);
         setFocusableInTouchMode(true);
-        
-        paint.setColor(Color.GREEN);
-//        paint.setAntiAlias(true);
+
         setup(context);
         this.setOnTouchListener(this);
 	}
@@ -44,6 +41,14 @@ public class MelodroneView extends View implements OnTouchListener{
 	private void createNewMelodrone(Context context) {
 		mMelo = new Melodrone(mWidth, mHeight, context);
 
+		startUpdatingThread();
+
+		/* force repaint */
+		invalidate();
+	}
+
+
+	private void startUpdatingThread() {
 		Thread thread = new Thread() {
 			@Override
 
@@ -69,9 +74,6 @@ public class MelodroneView extends View implements OnTouchListener{
 			}
 		};
 		thread.start();
-
-		/* force repaint */
-		invalidate();
 	}
 
 	@Override
@@ -101,5 +103,8 @@ public class MelodroneView extends View implements OnTouchListener{
     }
     public void resume(){
     	paused = false;
+    }
+    public void reset(){
+    	mMelo.reset();
     }
 }

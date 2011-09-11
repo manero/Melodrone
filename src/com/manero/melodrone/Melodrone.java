@@ -187,5 +187,13 @@ public class Melodrone {
 			mNotes[column][row] = NoteState.OFF;
 		}
 	}
+
+	public void reset() {
+		for (int i = 0; i < GRID_SIDE; i++) {
+			for (int j = 0; j < GRID_SIDE; j++) {
+				mNotes[i][j] = NoteState.OFF;
+			}
+		}
+	}
 }
 
