@@ -11,20 +11,22 @@ import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 
 public class MelodroneView extends View implements OnTouchListener{
-	Melodrone mMelo = new Melodrone();
+	Melodrone mMelo;
 	Paint paint = new Paint();
 	int mWidth;
 	int mHeight;
+	boolean paused = false;
 	boolean lightingUp = true;
 
 	public MelodroneView(Context context) {
         super(context);
         setFocusable(true);
         setFocusableInTouchMode(true);
-        this.setOnTouchListener(this);
+        
         paint.setColor(Color.GREEN);
 //        paint.setAntiAlias(true);
         setup(context);
+        this.setOnTouchListener(this);
 	}
 
 
@@ -33,6 +35,13 @@ public class MelodroneView extends View implements OnTouchListener{
 
 		mWidth = dsp.getWidth();
 		mHeight = dsp.getHeight();
+		if(mMelo == null ){
+			createNewMelodrone(context);
+		}
+	}
+
+
+	private void createNewMelodrone(Context context) {
 		mMelo = new Melodrone(mWidth, mHeight, context);
 
 		Thread thread = new Thread() {
@@ -40,12 +49,21 @@ public class MelodroneView extends View implements OnTouchListener{
 
 			public void run() {
 				while (true) {
+					if(!paused){
 					mMelo.update();
-					postInvalidate();
-					try {
-						Thread.sleep(125);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+						postInvalidate();
+						try {
+							Thread.sleep(125);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+					else{
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
@@ -76,5 +94,12 @@ public class MelodroneView extends View implements OnTouchListener{
     @Override
     public void onDraw(Canvas canvas) {
     	mMelo.draw(canvas, paint);
+    }
+    
+    public void pause(){
+    	paused = true;
+    }
+    public void resume(){
+    	paused = false;
     }
 }
