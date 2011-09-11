@@ -1,3 +1,15 @@
-most of the base work i got from @silveira's Clover project at http://github.com/silveira/Clover
+IT'S THE INSTRUMENT OF THE FUTURE! IT'S _MELODRONE_!
 
-so thanks dude
+well it's a small programming challenge i imposed on myself.
+
+the idea is straight ripped from this: http://lab.andre-michelle.com/tonematrix
+
+most of the android base work i got from @silveira's Clover project at http://github.com/silveira/Clover
+
+i went with an 8-bit-esque sound approach because it looks shitty. so when i showed it to a friend asking for him to create the sound files, he said "do you want me to do 8-bit-esque sounds to go with the 8-bit look?", lmao.
+
+so thanks, dudes.
+
+i generated all the sound files myself using audacity (http://audacity.sourceforge.net/).
+
+there are bugs, of course. don't know if i'll fix them or if i'll just waste my life playing starcraft2. probably the latter.
