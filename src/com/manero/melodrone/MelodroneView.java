@@ -32,7 +32,7 @@ public class MelodroneView extends View implements OnTouchListener{
 
 		mWidth = dsp.getWidth();
 		mHeight = dsp.getHeight();
-		mMelo = new Melodrone(mWidth, mHeight);
+		mMelo = new Melodrone(mWidth, mHeight, context);
 
 		Thread thread = new Thread() {
 			@Override
@@ -41,7 +41,7 @@ public class MelodroneView extends View implements OnTouchListener{
 	                mMelo.update();
 	                postInvalidate();
 	                try {
-						Thread.sleep(100);
+						Thread.sleep(125);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

@@ -1,9 +1,12 @@
 package com.manero.melodrone;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.Log;
 
 
@@ -15,6 +18,7 @@ public class Melodrone {
 	}
 	
 	static int GRID_SIDE = 16;
+	static int BPM = 120;
 	//model
 	int mCurrentBeat = 0; // 0 to 15
 	NoteState[][] mNotes = 	{
@@ -35,21 +39,43 @@ public class Melodrone {
 			{NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF},
 			{NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF, NoteState.OFF},
 							};
-	
-	
+	SoundPool sp;
+	int soundIds[] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+	int mScaleOffset = 0;
 	//gfx
-	int mWidth;
-	int mHeight;
 	Rect mCellSize;
+
 	public Melodrone() {
 
 	}
 	
-	public Melodrone(int width, int height) {
-		mWidth = width;
-		mHeight = height;
+	public Melodrone(int width, int height, Context context) {
 		mCellSize = new Rect(0,0, width/GRID_SIDE, height/GRID_SIDE);
-	}
+		sp = new SoundPool(16, AudioManager.STREAM_MUSIC, 0);
+		soundIds[0] = sp.load(context, R.raw.re2, 1);
+		soundIds[1] = sp.load(context, R.raw.mi2, 1);
+		soundIds[2] = sp.load(context, R.raw.fas2, 1);
+		soundIds[3] = sp.load(context, R.raw.la2, 1);
+		soundIds[4] = sp.load(context, R.raw.si2, 1);
+
+		soundIds[5] = sp.load(context, R.raw.re3, 1);
+		soundIds[6] = sp.load(context, R.raw.mi3, 1);
+		soundIds[7] = sp.load(context, R.raw.fas3, 1);
+		soundIds[8] = sp.load(context, R.raw.la3, 1);
+		soundIds[9] = sp.load(context, R.raw.si3, 1);
+
+		soundIds[10] = sp.load(context, R.raw.re4, 1);
+		soundIds[11] = sp.load(context, R.raw.mi4, 1);
+		soundIds[12] = sp.load(context, R.raw.fas4, 1);
+		soundIds[13] = sp.load(context, R.raw.la4, 1);
+		soundIds[14] = sp.load(context, R.raw.si4, 1);
+
+		soundIds[15] = sp.load(context, R.raw.re5, 1);
+		soundIds[16] = sp.load(context, R.raw.mi5, 1);
+		soundIds[17] = sp.load(context, R.raw.fas5, 1);
+		soundIds[18] = sp.load(context, R.raw.la5, 1);
+		soundIds[19] = sp.load(context, R.raw.si5, 1);
+}
 
 	public void update() {
 		if (mCurrentBeat >= GRID_SIDE)
@@ -60,6 +86,9 @@ public class Melodrone {
 			if (lastBeat == -1) lastBeat = 15;
 			if (mNotes[mCurrentBeat][i] == NoteState.ON) {
 				mNotes[mCurrentBeat][i] = NoteState.PLAYING;
+				if (soundIds[i] != -1){
+					sp.play(soundIds[16-(i+mScaleOffset)], 1, 1, 1, 0, 1f);	
+				}
 			}
 			if (mNotes[lastBeat][i] == NoteState.PLAYING) {
 				mNotes[lastBeat][i] = NoteState.ON;
