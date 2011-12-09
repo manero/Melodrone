@@ -6,4 +6,5 @@
     <string name="about_text">visit the project home at http://github.com/manero/Melodrone</string>
     <string name="about_menu">about...</string>
     <string name="exit">exit</string>
+    <string name="initial_toast">Touch the screen anywhere to start composing!</string>
 </resources>

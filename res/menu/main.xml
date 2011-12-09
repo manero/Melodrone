@@ -2,8 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<item android:id="@+id/clear_menu_item" android:icon="@android:drawable/ic_menu_delete"
 		android:title="@string/clear" />
-	<item android:id="@+id/about_menu_item" android:icon="@android:drawable/ic_menu_info_details"
-		android:title="@string/about_menu" />
+	<item android:titleCondensed="Save/Load" android:title="Save/Load" android:id="@+id/saveload" android:icon="@android:drawable/ic_menu_save">
+		<menu>
+			<item android:id="@+id/save" android:title="Save..." android:titleCondensed="Save" android:icon="@android:drawable/ic_menu_save"/>
+			<item android:id="@+id/load" android:title="Load..." android:titleCondensed="Load" android:icon="@android:drawable/ic_menu_upload" />
+		</menu>
+	</item>
+
+	<item android:titleCondensed="Options" android:title="Options" android:id="@+id/options" android:icon="@android:drawable/star_on">
+		<menu>
+			<item android:icon="@android:drawable/ic_menu_info_details" android:title="@string/about_menu" android:id="@+id/about_menu_item" />
+			<item android:id="@+id/life" android:titleCondensed="Life!" android:title="Enable Game of Life" android:icon="@android:drawable/star_off" />
+		</menu>
+	</item>
+
 	<item android:id="@+id/exit_menu_item" android:icon="@android:drawable/ic_menu_close_clear_cancel"
-		android:title="@string/exit" />
+		android:title="@string/exit" ></item>
+	
 </menu>

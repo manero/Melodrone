@@ -23,7 +23,6 @@ public class MelodroneActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         
-        /* Call CloverView */ 
         mMelodroneView = new MelodroneView(this);
         setContentView(mMelodroneView);
         mMelodroneView.requestFocus();
@@ -59,10 +58,31 @@ public class MelodroneActivity extends Activity {
         case R.id.exit_menu_item:
         	System.exit(0);
             return true;
+        case R.id.life:
+        	//toggle life
+        	Defaults.life = !Defaults.life;
+        	//sets menu icon
+        	if (Defaults.life) {
+        		item.setTitle("Disable Game of Life");
+        	} else {
+        		item.setTitle("Enable Game of Life");
+        	}
+        	return true;
+        	
+        case R.id.save:
+        	//@debug not ready yet.
+//        	mMelodroneView.serialize();
+        	return true;
+        case R.id.load:
+        	//@debug not ready yet.
+//        	mMelodroneView.deserialize();
+        	return true;
         default:
             return super.onOptionsItemSelected(item);
         }
     }
+    
+
     
     public void showAboutDialog(){
   	  final TextView message = new TextView(this);

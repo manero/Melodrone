@@ -45,6 +45,11 @@ public class Melodrone {
 	//gfx
 	Rect mCellSize;
 
+	/*
+	//@debug
+	int compassesUntilSwitch = 5;
+	int compassCounter = 0;
+	 */
 	public Melodrone() {
 
 	}
@@ -78,8 +83,12 @@ public class Melodrone {
 }
 
 	public void update() {
-		if (mCurrentBeat >= GRID_SIDE)
+		if (mCurrentBeat >= GRID_SIDE) {
 			mCurrentBeat = 0;
+			if (Defaults.life) {
+				life();
+			}
+		}
 		for (int i = 0; i < GRID_SIDE; i++) {
 //			int lastBeat = (mCurrentBeat - 1) % 16;
 			int lastBeat = mCurrentBeat - 1;
@@ -87,7 +96,7 @@ public class Melodrone {
 			if (mNotes[mCurrentBeat][i] == NoteState.ON) {
 				mNotes[mCurrentBeat][i] = NoteState.PLAYING;
 				if (soundIds[i] != -1){
-					sp.play(soundIds[16-(i+mScaleOffset)], 1, 1, 1, 0, 1f);	
+					sp.play(soundIds[16-(i+mScaleOffset)], 1, 1, 1, 0, 1f);
 				}
 			}
 			if (mNotes[lastBeat][i] == NoteState.PLAYING) {
@@ -95,7 +104,107 @@ public class Melodrone {
 			}
 		}
 		mCurrentBeat++;
-//		printGrid(); //debug purposes
+	    /*
+	    //@debug
+		if (mCurrentBeat >= GRID_SIDE) {
+			mCurrentBeat = 0;
+//		    Log.d("UPDATE", "compass counter = " + compassCounter);
+		    compassCounter++;
+
+		    if (compassCounter % compassesUntilSwitch == 0) {
+		    	if (compassCounter % 2 == 0) {
+		    		
+		    		Log.d("UPDATE", "resetting");
+		    		reset();
+		    	} else {
+		    		
+		    		Log.d("UPDATE", "filling all");
+		    		fillAll();
+		    	}
+		    }
+		}
+	    */
+	}
+
+	private void life() {
+		boolean[][] aux = new boolean[16][16];
+		for (int i = 0; i < GRID_SIDE; i++) {
+			for (int j = 0; j < GRID_SIDE; j++) {
+				aux[i][j] = checkNeighbors(i, j); 
+			}
+		}
+		for (int i = 0; i < GRID_SIDE; i++) {
+			for (int j = 0; j < GRID_SIDE; j++) {
+				if (aux[i][j])
+					mNotes[i][j] = NoteState.ON;
+				else
+					mNotes[i][j] = NoteState.OFF;
+			}
+		}
+	}
+
+	private boolean checkNeighbors(int i, int j) {
+//		rules:
+//		Any live cell with fewer than two live neighbours dies, as if caused by under-population.
+//		Any live cell with two or three live neighbours lives on to the next generation.
+//		Any live cell with more than three live neighbours dies, as if by overcrowding.
+//		Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+		int liveNeighbors = 0;
+		try {
+			if (mNotes[i-1][j-1] != NoteState.OFF) liveNeighbors++;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
+
+		
+		try {
+			if (mNotes[i  ][j-1] != NoteState.OFF) liveNeighbors++;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
+		try {
+			if (mNotes[i+1][j-1] != NoteState.OFF) liveNeighbors++;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
+
+		try {
+		if (mNotes[i-1][j  ] != NoteState.OFF) liveNeighbors++;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
+//		if (mNotes[i  ][j  ] != NoteState.OFF) liveNeighbors++;
+		try {
+			if (mNotes[i+1][j  ] != NoteState.OFF) liveNeighbors++;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
+
+		try {
+			if (mNotes[i-1][j+1] != NoteState.OFF) liveNeighbors++;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
+		try {
+			if (mNotes[i  ][j+1] != NoteState.OFF) liveNeighbors++;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
+		try {
+			if (mNotes[i+1][j+1] != NoteState.OFF) liveNeighbors++;
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO: handle exception
+		}
+
+		if (liveNeighbors < 2 && (mNotes[i][j] != NoteState.OFF)) {
+			return false;
+		} else if ((liveNeighbors == 2 || liveNeighbors == 3) && (mNotes[i][j] != NoteState.OFF)) {
+			return true;
+		} else if (liveNeighbors > 3 && (mNotes[i][j] != NoteState.OFF)) {
+			return false;
+		} else if ((mNotes[i][j] == NoteState.OFF) && liveNeighbors == 3) {
+			return true;
+		} else return false; //should never reach this point
 	}
 
 	@SuppressWarnings("unused")
@@ -162,8 +271,7 @@ public class Melodrone {
 		if (mNotes[column][row] == NoteState.OFF) {
 			mNotes[column][row] = NoteState.ON;
 			lightingUp = true;
-		}
-		else {
+		} else {
 			mNotes[column][row] = NoteState.OFF;
 			lightingUp = false;
 		}
@@ -195,5 +303,39 @@ public class Melodrone {
 			}
 		}
 	}
+	
+	public void serialize() {
+		short one = 1;
+		for (int i = 0; i < GRID_SIDE; i++) {
+			short line = 0;
+			for (int j = 0; j < GRID_SIDE; j++) {
+				if (mNotes[i][j] == NoteState.ON) {
+					line = (short) (line | (one << j));
+				}
+			}
+		}
+	}
+	
+	public void deserialize() {
+		short source[] = {4, 5, 7, 9, 12, 8, 23, 8, 23, 8, 3, 8, 56, 9, 2, 9};
+		short one = 1;
+		int on = 0;
+		for (int i = 0; i < GRID_SIDE; i++) {
+			for (int j = 0; j < GRID_SIDE; j++) {
+				on = source[i] & (one << j);
+				if (on > 0) mNotes[i][j] = NoteState.ON; else mNotes[i][j] = NoteState.OFF;
+			}
+		}
+	}
+	/*
+	//@debug. fills whole grid to cause slowdown
+	public void fillAll() {
+		for (int i = 0; i < GRID_SIDE; i++) {
+			for (int j = 0; j < GRID_SIDE; j++) {
+				mNotes[i][j] = NoteState.ON;
+			}
+		}
+	}
+	*/
 }
 

@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 public class MelodroneView extends View implements OnTouchListener{
 	Melodrone mMelo;
@@ -33,6 +34,7 @@ public class MelodroneView extends View implements OnTouchListener{
 		mWidth = dsp.getWidth();
 		mHeight = dsp.getHeight();
 		if(mMelo == null ){
+			Toast.makeText(context, R.string.initial_toast, 5).show();
 			createNewMelodrone(context);
 		}
 	}
@@ -43,7 +45,7 @@ public class MelodroneView extends View implements OnTouchListener{
 
 		startUpdatingThread();
 
-		/* force repaint */
+		//force repaint
 		invalidate();
 	}
 
@@ -54,16 +56,15 @@ public class MelodroneView extends View implements OnTouchListener{
 
 			public void run() {
 				while (true) {
-					if(!paused){
-					mMelo.update();
+					if (!paused) {
+						mMelo.update();
 						postInvalidate();
 						try {
 							Thread.sleep(125);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-					}
-					else{
+					} else {
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
@@ -106,5 +107,12 @@ public class MelodroneView extends View implements OnTouchListener{
     }
     public void reset(){
     	mMelo.reset();
+    }
+    
+    public void serialize() {
+    	mMelo.serialize();
+    }
+    public void deserialize() {
+    	mMelo.deserialize();
     }
 }
