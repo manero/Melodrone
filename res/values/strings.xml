@@ -3,7 +3,7 @@
     <string name="hello">Hello World, MelodroneActivity!</string>
     <string name="app_name">Melodrone</string>
     <string name="clear">clear screen</string>
-    <string name="about_text">visit the project home at http://github.com/manero/Melodrone</string>
+    <string name="about_text">Hey there! I hope you liked Melodrone :)\n\nYou can visit the project home at http://github.com/manero/Melodrone or you can see what I\'m up to at http://ma.ne.ro.\n\nThanks for the support! If the app force closes, please submit the report! I\'ll fix it :)</string>
     <string name="about_menu">about...</string>
     <string name="exit">exit</string>
     <string name="initial_toast">Touch the screen anywhere to start composing!</string>

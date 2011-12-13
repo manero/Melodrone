@@ -2,6 +2,9 @@ package com.manero.melodrone;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -68,7 +71,7 @@ public class MelodroneActivity extends Activity {
         		item.setTitle("Enable Game of Life");
         	}
         	return true;
-        	
+/*        	
         case R.id.save:
         	//@debug not ready yet.
 //        	mMelodroneView.serialize();
@@ -77,6 +80,7 @@ public class MelodroneActivity extends Activity {
         	//@debug not ready yet.
 //        	mMelodroneView.deserialize();
         	return true;
+*/
         default:
             return super.onOptionsItemSelected(item);
         }
@@ -96,6 +100,13 @@ public class MelodroneActivity extends Activity {
   	  	.setTitle(R.string.app_name)
   	  	.setIcon(android.R.drawable.ic_dialog_info)
   	  	.setPositiveButton(this.getString(android.R.string.ok), null)
+  	  	.setNeutralButton("Rate me!", new DialogInterface.OnClickListener() {
+  	  		public void onClick(DialogInterface dialog, int id) {
+  	  			Intent intent = new Intent(Intent.ACTION_VIEW);
+  	  			intent.setData(Uri.parse("market://details?id=com.manero.melodrone"));
+  	  			startActivity(intent);
+           }
+  	  	})
   	  	.setView(message)
   	  	.create();
   	  about.show();

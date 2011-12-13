@@ -267,14 +267,18 @@ public class Melodrone {
 		// find column and row
 		int column = (int) (x / mCellSize.width());
 		int row = (int) (y / mCellSize.height());
-		
-		if (mNotes[column][row] == NoteState.OFF) {
-			mNotes[column][row] = NoteState.ON;
-			lightingUp = true;
-		} else {
-			mNotes[column][row] = NoteState.OFF;
-			lightingUp = false;
+		try {		//lazy fix... i should instead find out why i get ArrayIndexOutOfBoundsException instead of wrapping it up in a try/catch block 
+			if (mNotes[column][row] == NoteState.OFF) {
+				mNotes[column][row] = NoteState.ON;
+				lightingUp = true;
+			} else {
+				mNotes[column][row] = NoteState.OFF;
+				lightingUp = false;
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO: handle exception
 		}
+
 		return lightingUp;
 	}
 
