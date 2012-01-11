@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -25,6 +26,7 @@ public class MelodroneActivity extends Activity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
         
         mMelodroneView = new MelodroneView(this);
         setContentView(mMelodroneView);
@@ -35,11 +37,13 @@ public class MelodroneActivity extends Activity {
     public void onPause(){
     	super.onPause();
     	mMelodroneView.pause();
+    	this.setVolumeControlStream(AudioManager.USE_DEFAULT_STREAM_TYPE);
     }
     
     public void onResume(){
     	super.onResume();
     	mMelodroneView.resume();
+    	this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
     
     @Override
@@ -69,6 +73,16 @@ public class MelodroneActivity extends Activity {
         		item.setTitle("Disable Game of Life");
         	} else {
         		item.setTitle("Enable Game of Life");
+        	}
+        	return true;
+        	
+        case R.id.grid:
+        	//toggle grid
+        	Defaults.grid = !Defaults.grid;
+        	if (Defaults.grid) {
+        		item.setTitle("hide grid");
+        	} else {
+        		item.setTitle("show grid");
         	}
         	return true;
 /*        	

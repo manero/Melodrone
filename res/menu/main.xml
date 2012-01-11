@@ -13,7 +13,8 @@
 	<item android:titleCondensed="Options" android:title="Options" android:id="@+id/options" android:icon="@android:drawable/star_on">
 		<menu>
 			<item android:icon="@android:drawable/ic_menu_info_details" android:title="@string/about_menu" android:id="@+id/about_menu_item" />
-			<item android:id="@+id/life" android:titleCondensed="Life!" android:title="Enable Game of Life" android:icon="@android:drawable/star_off" />
+			<item android:id="@+id/life" android:icon="@android:drawable/star_off" android:titleCondensed="life!" android:title="enable game of life"/>
+			<item android:id="@+id/grid" android:icon="@android:drawable/ic_dialog_dialer" android:title="hide grid" android:titleCondensed="grid toggle"/>
 		</menu>
 	</item>
 

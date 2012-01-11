@@ -3,6 +3,7 @@ package com.manero.melodrone;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DrawFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.media.AudioManager;
@@ -242,7 +243,14 @@ public class Melodrone {
 			for (int j = 0; j < GRID_SIDE; j++) {
 				drawRect.set(mCellSize);
 				drawRect.offset(i*mCellSize.width(), j*mCellSize.height());
-				
+				if (Defaults.grid) {
+					if (i == mCurrentBeat)
+						paint.setColor(Color.GRAY);
+					else
+						paint.setColor(Color.DKGRAY);
+					canvas.drawRect(drawRect, paint);
+					drawRect.set(drawRect.left+1, drawRect.top+1, drawRect.right-1, drawRect.bottom-1);
+				}
 				switch (mNotes[i][j]) {
 				case OFF:
 					paint.setColor(Color.BLACK);

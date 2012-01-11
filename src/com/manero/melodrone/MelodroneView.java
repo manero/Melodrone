@@ -34,7 +34,7 @@ public class MelodroneView extends View implements OnTouchListener{
 		mWidth = dsp.getWidth();
 		mHeight = dsp.getHeight();
 		if(mMelo == null ){
-			Toast.makeText(context, R.string.initial_toast, 5).show();
+			Toast.makeText(context, R.string.initial_toast, 10).show();
 			createNewMelodrone(context);
 		}
 	}
