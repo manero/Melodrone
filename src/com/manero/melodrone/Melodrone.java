@@ -97,7 +97,7 @@ public class Melodrone {
 			if (mNotes[mCurrentBeat][i] == NoteState.ON) {
 				mNotes[mCurrentBeat][i] = NoteState.PLAYING;
 				if (soundIds[i] != -1){
-					sp.play(soundIds[16-(i+mScaleOffset)], 1, 1, 1, 0, 1f);
+					sp.play(soundIds[16-(i+mScaleOffset)], 1, 1, 1, 0, Defaults.timeRate);
 				}
 			}
 			if (mNotes[lastBeat][i] == NoteState.PLAYING) {
