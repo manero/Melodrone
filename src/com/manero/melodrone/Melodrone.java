@@ -3,10 +3,8 @@ package com.manero.melodrone;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.DrawFilter;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
 
@@ -46,41 +44,19 @@ public class Melodrone {
 	//gfx
 	Rect mCellSize;
 
-	/*
-	//@debug
-	int compassesUntilSwitch = 5;
-	int compassCounter = 0;
-	 */
+	SoundBox sb;
+	
 	public Melodrone() {
 
 	}
 	
 	public Melodrone(int width, int height, Context context) {
-		mCellSize = new Rect(0,0, width/GRID_SIDE, height/GRID_SIDE);
-		sp = new SoundPool(16, AudioManager.STREAM_MUSIC, 0);
-		soundIds[0] = sp.load(context, R.raw.re2, 1);
-		soundIds[1] = sp.load(context, R.raw.mi2, 1);
-		soundIds[2] = sp.load(context, R.raw.fas2, 1);
-		soundIds[3] = sp.load(context, R.raw.la2, 1);
-		soundIds[4] = sp.load(context, R.raw.si2, 1);
+		int lado = width/GRID_SIDE;
+		if (height/GRID_SIDE < lado) lado = height/GRID_SIDE;
+		mCellSize = new Rect(0,0, lado, lado);
 
-		soundIds[5] = sp.load(context, R.raw.re3, 1);
-		soundIds[6] = sp.load(context, R.raw.mi3, 1);
-		soundIds[7] = sp.load(context, R.raw.fas3, 1);
-		soundIds[8] = sp.load(context, R.raw.la3, 1);
-		soundIds[9] = sp.load(context, R.raw.si3, 1);
-
-		soundIds[10] = sp.load(context, R.raw.re4, 1);
-		soundIds[11] = sp.load(context, R.raw.mi4, 1);
-		soundIds[12] = sp.load(context, R.raw.fas4, 1);
-		soundIds[13] = sp.load(context, R.raw.la4, 1);
-		soundIds[14] = sp.load(context, R.raw.si4, 1);
-
-		soundIds[15] = sp.load(context, R.raw.re5, 1);
-		soundIds[16] = sp.load(context, R.raw.mi5, 1);
-		soundIds[17] = sp.load(context, R.raw.fas5, 1);
-		soundIds[18] = sp.load(context, R.raw.la5, 1);
-		soundIds[19] = sp.load(context, R.raw.si5, 1);
+		
+		sb = new SoundBox();
 }
 
 	public void update() {
@@ -91,40 +67,17 @@ public class Melodrone {
 			}
 		}
 		for (int i = 0; i < GRID_SIDE; i++) {
-//			int lastBeat = (mCurrentBeat - 1) % 16;
 			int lastBeat = mCurrentBeat - 1;
 			if (lastBeat == -1) lastBeat = 15;
 			if (mNotes[mCurrentBeat][i] == NoteState.ON) {
 				mNotes[mCurrentBeat][i] = NoteState.PLAYING;
-				if (soundIds[i] != -1){
-					sp.play(soundIds[16-(i+mScaleOffset)], 1, 1, 1, 0, 1f);
-				}
+				sb.playTone(i);
 			}
 			if (mNotes[lastBeat][i] == NoteState.PLAYING) {
 				mNotes[lastBeat][i] = NoteState.ON;
 			}
 		}
 		mCurrentBeat++;
-	    /*
-	    //@debug
-		if (mCurrentBeat >= GRID_SIDE) {
-			mCurrentBeat = 0;
-//		    Log.d("UPDATE", "compass counter = " + compassCounter);
-		    compassCounter++;
-
-		    if (compassCounter % compassesUntilSwitch == 0) {
-		    	if (compassCounter % 2 == 0) {
-		    		
-		    		Log.d("UPDATE", "resetting");
-		    		reset();
-		    	} else {
-		    		
-		    		Log.d("UPDATE", "filling all");
-		    		fillAll();
-		    	}
-		    }
-		}
-	    */
 	}
 
 	private void life() {
@@ -244,7 +197,7 @@ public class Melodrone {
 				drawRect.set(mCellSize);
 				drawRect.offset(i*mCellSize.width(), j*mCellSize.height());
 				if (Defaults.grid) {
-					if (i == mCurrentBeat)
+					if (i == mCurrentBeat - 1)
 						paint.setColor(Color.GRAY);
 					else
 						paint.setColor(Color.DKGRAY);
@@ -339,15 +292,5 @@ public class Melodrone {
 			}
 		}
 	}
-	/*
-	//@debug. fills whole grid to cause slowdown
-	public void fillAll() {
-		for (int i = 0; i < GRID_SIDE; i++) {
-			for (int j = 0; j < GRID_SIDE; j++) {
-				mNotes[i][j] = NoteState.ON;
-			}
-		}
-	}
-	*/
 }
 
